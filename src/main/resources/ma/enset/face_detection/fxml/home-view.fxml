@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #a382c3;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ma.enset.face_detection.controller.HomeController">
+   <left>
+      <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="229.0" spacing="40.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="69.0" prefWidth="176.0" text="GATEGUARD" textAlignment="CENTER" textFill="#fbf8f8">
+               <font>
+                  <Font name="MV Boli" size="28.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <Button alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#dashboard" prefHeight="41.0" prefWidth="128.0" style="-fx-background-color: D4C6F6FF;" text="DASHBOARD">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#manageUsers" prefHeight="41.0" prefWidth="128.0" style="-fx-background-color: #D4C6F6FF;" text="MANAGE USERS">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#statistics" prefHeight="41.0" prefWidth="128.0" style="-fx-background-color: #D4C6F6FF;" text="STATISTICS">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="30.0" left="40.0" right="10.0" top="30.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <center>
+      <TextArea prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #7E00FFFF;" text="&#10;   &#10; WELCOME&#10; TO &#10;      GATEGUARD " BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </TextArea>
+   </center>
+</BorderPane>
