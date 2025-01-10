@@ -9,20 +9,33 @@ public class Users {
     private String email;
     private byte[] face_data;
     private Timestamp created_at;
+    private String imagePath;
+
 
     //Constructeurs
     public Users() {
     }
 
-    public Users(int id, String username, String email, byte[] face_data, Timestamp created_at) {
+    public Users(int id, String username, String email, byte[] face_data, Timestamp created_at, String imagePath) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.face_data = face_data;
         this.created_at = created_at;
+        this.imagePath = imagePath;
     }
 
+
     //Getters et setters
+
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
     public int getId() {
         return id;

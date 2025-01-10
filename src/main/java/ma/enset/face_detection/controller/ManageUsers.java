@@ -6,7 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import ma.enset.face_detection.ImageUtils;
 import ma.enset.face_detection.Metier.GateGuardService;
 import ma.enset.face_detection.Metier.GateGuardServiceImp;
@@ -15,6 +17,8 @@ import ma.enset.face_detection.dao.UsersDaoImp;
 import ma.enset.face_detection.entities.AccessLogs;
 import ma.enset.face_detection.entities.Users;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -30,7 +34,10 @@ public class ManageUsers implements Initializable {
     @FXML private TableColumn<Users, Long> columnId;
     @FXML private TableColumn<Users, String> columnNom;
     @FXML private TableColumn<Users, String> columnEmail;
-    @FXML private TableColumn<Users, ImageView> columnImage;
+    @FXML private TableColumn<Users, byte[]> columnImage;
+
+
+
 
     private ObservableList<Users> users = FXCollections.observableArrayList();
     private ObservableList<AccessLogs> accessLogs = FXCollections.observableArrayList();
@@ -40,6 +47,28 @@ public class ManageUsers implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         service =new GateGuardServiceImp(new UsersDaoImp(),new AcessLogsDaoImp());
+        columnImage.setCellFactory(tc -> new TableCell<Users, byte[]>() {
+            private final ImageView imageView = new ImageView();
+
+            {
+                imageView.setFitWidth(50);  // Largeur de l'image
+                imageView.setFitHeight(50); // Hauteur de l'image
+            }
+
+            @Override
+            protected void updateItem(byte[] item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    Image image = new Image(new ByteArrayInputStream(item));
+                    imageView.setImage(image);
+                    setGraphic(imageView);
+                }
+            }
+        });
+
+
         users.addAll(service.getAllUsers());
         accessLogs.addAll(service.getAllAccessLogs());
         textFieldRecherche.textProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -79,6 +108,23 @@ public class ManageUsers implements Initializable {
         users.setFace_data(ImageUtils.imageToBytes(imageView.getImage()));
         service.addUser(users);
         load();
+
+    }
+    public void ajouterImage(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner une image");
+
+        // Filtrer pour ne permettre que les fichiers d'image
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File file = fileChooser.showOpenDialog(null);
+
+        if (file != null) {
+            Image image = new Image(file.toURI().toString());
+            imageView.setImage(image);
+        }
 
     }
 

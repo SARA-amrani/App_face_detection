@@ -81,6 +81,8 @@
                   <TextField fx:id="textFieldNom" GridPane.columnIndex="1" />
                   <TextField fx:id="textFieldEmail" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <ImageView fx:id="imageView" fitHeight="28.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                   <Button fx:id="btnAjouterImage" text="Ajouter une image" GridPane.columnIndex="1" GridPane.rowIndex="3" onAction="#ajouterImage"/>
+
                </children>
                <BorderPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
