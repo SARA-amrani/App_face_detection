@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #a382c3;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ma.enset.face_detection.controller.HomeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #a382c3;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ma.enset.face_detection.controller.HomeController">
    <left>
       <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="229.0" spacing="40.0" BorderPane.alignment="CENTER">
          <children>
@@ -49,9 +48,9 @@
       </VBox>
    </left>
    <center>
-      <TextArea prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #7E00FFFF;" text="&#10;   &#10; WELCOME&#10; TO &#10;      GATEGUARD " BorderPane.alignment="CENTER">
+      <TextArea prefHeight="200.0" prefWidth="200.0" text="&#10;   &#10;             WELCOME&#10;                    TO &#10;            GATEGUARD " BorderPane.alignment="CENTER">
          <font>
-            <Font name="System Bold" size="30.0" />
+            <Font name="Arial Black" size="36.0" />
          </font>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

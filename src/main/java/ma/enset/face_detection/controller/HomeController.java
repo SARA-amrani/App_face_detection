@@ -11,7 +11,7 @@ public class HomeController {
         this.mainPane = mainPane;
     }
 
-    private void loadView(String fxmlPath) {
+    public void loadView(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
@@ -26,7 +26,7 @@ public class HomeController {
     }
 
     public void manageUsers() {
-        loadView("/ma/enset/face_detection/fxml/home-view.fxml");
+        loadView("/ma/enset/face_detection/fxml/manageUsers-view.fxml");
     }
 
     public void statistics() {
