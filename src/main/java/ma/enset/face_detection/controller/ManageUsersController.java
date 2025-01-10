@@ -22,7 +22,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ManageUsers implements Initializable {
+public class ManageUsersController implements Initializable {
 
     @FXML private TextField textFieldNom;
     @FXML private TextField textFieldEmail;
