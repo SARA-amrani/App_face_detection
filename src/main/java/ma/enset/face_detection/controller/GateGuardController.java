@@ -1,22 +1,25 @@
 package ma.enset.face_detection.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import ma.enset.face_detection.Metier.GateGuardService;
 import ma.enset.face_detection.Metier.GateGuardServiceImp;
+import ma.enset.face_detection.SQLiteConnection;
 import ma.enset.face_detection.Utils;
 import ma.enset.face_detection.entities.AccessLogs;
-import ma.enset.face_detection.entities.Users;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
-import javax.sql.rowset.serial.SerialBlob;
 import java.net.URL;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.Instant;
 import java.util.ResourceBundle;
 
@@ -55,17 +58,18 @@ public class GateGuardController implements Initializable {
         }
     }
 
-    public void verify() {
+    public void verify() throws SQLException {
         Mat frame = new Mat();
         if (videoCapture.read(frame)) {
             String filename = "temp_image.png";
             Imgcodecs.imwrite(filename, frame);
 
             boolean matchFound = checkForMatchingImage(frame);
-            saveAccessLog(filename, matchFound ? "granted" : "denied");
+            saveAccessLog(filename, matchFound ? "Verified" : "Denied");
 
             if (matchFound) {
                 showConfirmationAlert("Access Granted", "Identity verified successfully!");
+                openHomeWindow(); // Ouvrir la fenêtre "Home" après succès
             } else {
                 showErrorAlert("Access Denied", "No matching identity found.");
             }
@@ -74,18 +78,79 @@ public class GateGuardController implements Initializable {
         }
     }
 
-    private boolean checkForMatchingImage(Mat capturedImage) {
-        for (Users user : gateGuardService.getAllUsers()) {
-            byte[] imageBytes = user.getFace_data(); // Maintenant, on s'assure que c'est bien un byte[]
-            if (imageBytes != null) {
-                Mat dbImage = Imgcodecs.imdecode(new MatOfByte(imageBytes), Imgcodecs.IMREAD_COLOR);
+    private void openHomeWindow() {
+        try {
+            // Charger la vue FXML de la fenêtre "Home"
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ma/enset/face_detection/fxml/home-view.fxml"));
+            Parent homeRoot = loader.load();
 
-                double comparisonScore = compareImages(capturedImage, dbImage);
-                if (comparisonScore > 0.9) {
-                    return true;
+            // Créer une nouvelle scène pour la fenêtre "Home"
+            Stage stage = new Stage();
+            stage.setTitle("Home GateGuard");
+            stage.setScene(new Scene(homeRoot));
+
+            // Fermer la fenêtre actuelle (optionnel)
+            Stage currentStage = (Stage) imageView.getScene().getWindow();
+            currentStage.close();
+
+            // Afficher la nouvelle fenêtre
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Window Error", "Failed to open home window.");
+        }
+    }
+
+
+    private void captureAndSaveImage() {
+        Mat frame = new Mat();
+        if (videoCapture.read(frame)) {
+            String filename = "temp_image.png";
+            Imgcodecs.imwrite(filename, frame);
+
+            try (Connection connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\HP\\IdeaProjects\\App_face_detection\\database.db")) {
+                boolean matchFound = checkForMatchingImage(frame);
+
+                // Comparer l'image capturée avec la base de données et afficher le score
+                if (matchFound) {
+                    showConfirmationAlert("Access Granted", "Identity verified successfully!");
+                    saveAccessLog(filename, "Verified"); // Enregistrer le log avec le statut "Verified"
+                } else {
+                    showErrorAlert("Access Denied", "No matching identity found.");
+                    saveAccessLog(filename, "Denied"); // Enregistrer le log avec le statut "Denied"
                 }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                showErrorAlert("Database Error", "An error occurred while accessing the database.");
+            }
+        } else {
+            showErrorAlert("Capture Error", "Failed to capture image from the camera.");
+        }
+    }
+
+    private boolean checkForMatchingImage(Mat capturedImage) throws SQLException {
+        Connection connection = SQLiteConnection.connect();
+        String sql = "SELECT id, face_data FROM Users";  // Assurez-vous que le champ 'face_data' contient les images
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            byte[] imageBytes = resultSet.getBytes("face_data"); // Récupérer l'image de la table 'Users'
+            Mat dbImage = Imgcodecs.imdecode(new MatOfByte(imageBytes), Imgcodecs.IMREAD_COLOR);
+
+            // Calculer le score de comparaison pour l'image capturée
+            double comparisonScore = compareImages(capturedImage, dbImage);
+
+            // Afficher le score dans la console pour l'image capturée
+            System.out.println("Score de comparaison pour l'image capturée avec l'ID " + resultSet.getInt("id") + ": " + comparisonScore);
+
+            if (comparisonScore > 0.5) {
+                System.out.println("Image correspondante trouvée ! Score: " + comparisonScore);
+                return true;
             }
         }
+        System.out.println("Aucune correspondance trouvée.");
         return false;
     }
 
@@ -110,7 +175,7 @@ public class GateGuardController implements Initializable {
         return Imgproc.compareHist(hist1, hist2, Imgproc.CV_COMP_CORREL);
     }
 
-
+    // Correction ici pour accepter filename et status comme arguments
     private void saveAccessLog(String filename, String status) {
         try {
             AccessLogs accessLog = new AccessLogs();

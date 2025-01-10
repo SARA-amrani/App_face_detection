@@ -1,6 +1,8 @@
 package ma.enset.face_detection;
 
 import javafx.embed.swing.SwingFXUtils;
+import org.tensorflow.Tensor;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -18,4 +20,5 @@ public class ImageUtils {
             return null;
         }
     }
+
 }

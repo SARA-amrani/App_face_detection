@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="ma.enset.face_detection.controller.StatisticsController"
+            prefWidth="960.0" prefHeight="540.0" style="-fx-background-color: #D7BFDC;">
+
+    <!-- Title for Pie Chart -->
+    <Label layoutX="70.0" layoutY="50.0" text="Users Statistics" textFill="#ffffff" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <!-- Pie Chart for Users Statistics -->
+    <PieChart fx:id="usersPieChart" layoutX="20.0" layoutY="80.0" prefHeight="250.0" prefWidth="300.0"
+              style="-fx-background-color: transparent; -fx-pie-color1: #A68BB3; -fx-pie-color2: #8C4799;"/>
+
+    <!-- Title for Bar Chart -->
+    <Label layoutX="540.0" layoutY="50.0" text="Access Attempts Per Day" textFill="FFFFFF" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <!-- Bar Chart for Access Attempts Per Day -->
+    <BarChart fx:id="attemptsBarChart" layoutX="340.0" layoutY="80.0" prefHeight="400.0" prefWidth="600.0"
+              style="-fx-background-color: transparent;">
+        <xAxis>
+            <CategoryAxis fx:id="xAxis" label="Date" style="-fx-tick-label-fill: #4A148C; -fx-label-padding: 10;"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis fx:id="yAxis" label="Attempts" style="-fx-tick-label-fill: #4A148C; -fx-label-padding: 10;"/>
+        </yAxis>
+    </BarChart>
+</AnchorPane>

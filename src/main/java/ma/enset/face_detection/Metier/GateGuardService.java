@@ -18,4 +18,7 @@ public interface GateGuardService {
     void updateAccessLogs(AccessLogs accessLogs);
     List<AccessLogs> findAcessLogsByQuery(String query);
 
+    List<AccessLogs> getVerifiedAccessLogs();
+
+
 }

@@ -41,7 +41,7 @@ public class HomeController {
     @FXML
     public void statistics() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ma/enset/face_detection/fxml/manageUsers-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ma/enset/face_detection/fxml/statistics-view.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
