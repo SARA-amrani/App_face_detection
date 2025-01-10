@@ -3,12 +3,16 @@ package ma.enset.face_detection.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import ma.enset.face_detection.ImageUtils;
 import ma.enset.face_detection.Metier.GateGuardService;
 import ma.enset.face_detection.Metier.GateGuardServiceImp;
@@ -87,19 +91,51 @@ public class ManageUsersController implements Initializable {
 
     }
 
-    public void dashboard(){
-        HomeController homeController = new HomeController();
-        homeController.loadView("/ma/enset/face_detection/fxml/home-view.fxml");
+    //Menu
 
-    }
-    public void  manageusers(){
-        HomeController homeController = new HomeController();
-        homeController.loadView("/ma/enset/face_detection/fxml/manageUsers-view.fxml");
+    @FXML
+    public void dashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ma/enset/face_detection/fxml/home-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Home GateGuard");
+            stage.show();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    public void  statistics(){
+    @FXML
+    public void manageUsers() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ma/enset/face_detection/fxml/manageUsers-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Manage Users");
+            stage.show();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+    @FXML
+    public void statistics() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ma/enset/face_detection/fxml/manageUsers-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Statistics");
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void  ajouter(){
         Users users = new Users();
@@ -138,6 +174,9 @@ public class ManageUsersController implements Initializable {
 
     public void modifier(){
         Users users = tableUtilisateurs.getSelectionModel().getSelectedItem();
+        users.setUsername(textFieldNom.getText());
+        users.setEmail(textFieldEmail.getText());
+        users.setFace_data(ImageUtils.imageToBytes(imageView.getImage()));
         service.updateUser(users);
         load();
 
