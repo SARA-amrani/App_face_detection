@@ -1,6 +1,7 @@
 module ma.enset.face_detection {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     opens ma.enset.face_detection to javafx.fxml;

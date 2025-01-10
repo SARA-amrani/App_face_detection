@@ -1,4 +1,6 @@
 package ma.enset.face_detection.dao;
 
-public interface UsersDao {
+import ma.enset.face_detection.entities.Users;
+
+public interface UsersDao extends Dao<Users,Integer>{
 }

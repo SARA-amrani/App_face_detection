@@ -1,4 +1,6 @@
 package ma.enset.face_detection.dao;
 
-public interface AccessLogsDao {
+import ma.enset.face_detection.entities.AccessLogs;
+
+public interface AccessLogsDao extends Dao<AccessLogs,Integer> {
 }
