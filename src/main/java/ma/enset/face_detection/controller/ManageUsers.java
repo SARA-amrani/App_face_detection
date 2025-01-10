@@ -25,7 +25,7 @@ public class ManageUsers implements Initializable {
     @FXML private ImageView imageView;
 
 
-    @FXML private TextField textFieldSearch;
+    @FXML private TextField textFieldRecherche;
     @FXML private TableView<Users> tableUtilisateurs;
     @FXML private TableColumn<Users, Long> columnId;
     @FXML private TableColumn<Users, String> columnNom;
@@ -42,7 +42,7 @@ public class ManageUsers implements Initializable {
         service =new GateGuardServiceImp(new UsersDaoImp(),new AcessLogsDaoImp());
         users.addAll(service.getAllUsers());
         accessLogs.addAll(service.getAllAccessLogs());
-        textFieldSearch.textProperty().addListener((observableValue, oldValue, newValue) -> {
+        textFieldRecherche.textProperty().addListener((observableValue, oldValue, newValue) -> {
             users.setAll(service.findUserByQuery(newValue));
         });
 

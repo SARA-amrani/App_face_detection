@@ -122,7 +122,7 @@ public class AcessLogsDaoImp implements AccessLogsDao{
     private Users getUserById(long userId) {
         Users users = null;
         try {
-            String query = "SELECT * FROM client WHERE id_client = ?";
+            String query = "SELECT * FROM users WHERE id = ?";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setLong(1, userId);
 
