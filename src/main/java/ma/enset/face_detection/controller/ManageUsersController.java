@@ -120,6 +120,7 @@ public class ManageUsersController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
     @FXML
     public void statistics() {
