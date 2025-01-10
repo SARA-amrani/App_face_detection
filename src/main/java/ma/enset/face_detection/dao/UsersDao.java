@@ -2,5 +2,8 @@ package ma.enset.face_detection.dao;
 
 import ma.enset.face_detection.entities.Users;
 
-public interface UsersDao extends Dao<Users,Integer>{
+import java.util.List;
+
+public interface UsersDao extends Dao<Users, Integer>{
+    List<Users> findByQuery(String query);
 }

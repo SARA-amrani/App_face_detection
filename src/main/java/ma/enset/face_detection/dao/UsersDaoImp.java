@@ -1,6 +1,7 @@
 package ma.enset.face_detection.dao;
 
 import ma.enset.face_detection.SQLiteConnection;
+import ma.enset.face_detection.entities.Users;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,68 +39,89 @@ public class UsersDaoImp implements UsersDao{
     }
 
     @Override
-    public Users finById(Long id) {
+    public Users finById(Integer id) {
         try {
             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
-            pstmt.setLong(1, id);
+            pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                Chercheur chercheur = new Chercheur();
-                chercheur.setId_chercheur(rs.getLong("id_chercheur"));
-                chercheur.setNom(rs.getString("nom"));
-                chercheur.setPrenom(rs.getString("prenom"));
-                chercheur.setEmail(rs.getString("email"));
-                chercheur.setSpecialite(rs.getString("specialite"));
-                return chercheur;
+                Users users = new Users();
+                users.setId(rs.getInt("id"));
+                users.setUsername(rs.getString("username"));
+                users.setEmail(rs.getString("email"));
+                users.setFace_data(rs.getByte("face_data"));
+                users.setCreated_at(rs.getTimestamp("created_at"));
+                return users;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de la recherche de chercheur avec ID " + id, e);
+            throw new RuntimeException("Erreur lors de la recherche d'un utilisateurs avec ID " + id, e);
         }
         return null;
     }
 
     @Override
-    public void save(Chercheur chercheur) {
+    public void save(Users users) {
         try (PreparedStatement pstmt = connection.prepareStatement(
-                "INSERT INTO chercheur (nom, prenom, email, specialite) VALUES (?, ?, ?, ?)")) {
-            pstmt.setString(1, chercheur.getNom());
-            pstmt.setString(2, chercheur.getPrenom());
-            pstmt.setString(3, chercheur.getEmail());
-            pstmt.setString(4, chercheur.getSpecialite());
+                "INSERT INTO users (username, email, face_data, created_at) VALUES (?, ?, ?, ?)")) {
+            pstmt.setString(1, users.getUsername());
+            pstmt.setString(2, users.getEmail());
+            pstmt.setByte(3, users.getFace_data());
+            pstmt.setTimestamp(4, users.getCreated_at());
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de l'enregistrement de ce chercheur.", e);
+            throw new RuntimeException("Erreur lors de l'enregistrement de ce utilisateur.", e);
         }
     }
 
     @Override
-    public void delete(Chercheur chercheur) {
+    public void delete(Users users) {
         try {
-            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM chercheur WHERE id_chercheur = ?");
-            pstmt.setLong(1, chercheur.getId_chercheur());
+            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM users WHERE id = ?");
+            pstmt.setLong(1, users.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de la suppression de ce chercheur " + e);
+            throw new RuntimeException("Erreur lors de la suppression de ce utilisateur " + e);
         }
     }
 
     @Override
-    public void update(Chercheur chercheur) {
+    public void update(Users users) {
         try {
             PreparedStatement pstmt = connection.prepareStatement(
-                    "UPDATE chercheur SET nom = ?, prenom = ?, email = ?, specialite = ? WHERE id_chercheur = ?");
-            pstmt.setString(1, chercheur.getNom());
-            pstmt.setString(2, chercheur.getPrenom());
-            pstmt.setString(3, chercheur.getEmail());
-            pstmt.setString(4, chercheur.getSpecialite());
-            pstmt.setLong(5, chercheur.getId_chercheur());
+                    "UPDATE chercheur SET username = ?, email = ?, face_data = ?, created_at = ? WHERE id = ?");
+            pstmt.setString(1, users.getUsername());
+            pstmt.setString(2, users.getEmail());
+            pstmt.setByte(3, users.getFace_data());
+            pstmt.setTimestamp(4, users.getCreated_at());
+            pstmt.setLong(5, users.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de la mise à jour de chercheur avec ID " + chercheur.getId_chercheur(), e);
+            throw new RuntimeException("Erreur lors de la mise à jour de l'utilisateur avec ID " + users.getId(), e);
         }
     }
 
 
+    @Override
+    public List<Users> findByQuery(String query) {
+        List<Users> usersList = new ArrayList<>();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE username LIKE ? ");
+            pstmt.setString(1, "%" + query + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Users users = new Users();
+                users.setId(rs.getInt("id"));
+                users.setUsername(rs.getString("username"));
+                users.setEmail(rs.getString("email"));
+                users.setFace_data(rs.getByte("face_data"));
+                users.setCreated_at(rs.getTimestamp("created_at"));
+                usersList.add(users);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la recherche " + e);
+        }
+        return usersList;
+    }
 }
 
