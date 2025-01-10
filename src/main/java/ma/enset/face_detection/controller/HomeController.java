@@ -1,35 +1,57 @@
 package ma.enset.face_detection.controller;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class HomeController {
-    private BorderPane mainPane; // Conteneur principal pour afficher les vues
 
-    public void setMainPane(BorderPane mainPane) {
-        this.mainPane = mainPane;
-    }
-
-    public void loadView(String fxmlPath) {
+    @FXML
+    public void dashboard() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ma/enset/face_detection/fxml/home-view.fxml"));
             Parent root = loader.load();
-            mainPane.setCenter(root); // Remplace le contenu central du BorderPane par la nouvelle vue
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Home GateGuard");
+            stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void dashboard() {
-        loadView("/ma/enset/face_detection/fxml/home-view.fxml");
-    }
-
+    @FXML
     public void manageUsers() {
-        loadView("/ma/enset/face_detection/fxml/manageUsers-view.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ma/enset/face_detection/fxml/manageUsers-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Manage Users");
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    @FXML
     public void statistics() {
-        loadView("/ma/enset/face_detection/fxml/home-view.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ma/enset/face_detection/fxml/manageUsers-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Statistics");
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+
 }
