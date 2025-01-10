@@ -40,7 +40,7 @@ public class SQLiteConnection {
         String createAccessLogs = """
                 CREATE TABLE IF NOT EXISTS AccessLogs (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    user_id INTEGER,
+                    user_id INTEGER NULL,
                     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     status TEXT NOT NULL,
                     image_snapshot BLOB,

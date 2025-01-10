@@ -7,14 +7,14 @@ public class Users {
     private int id;
     private String username;
     private String email;
-    private Byte face_data;
+    private byte[] face_data;
     private Timestamp created_at;
 
     //Constructeurs
     public Users() {
     }
 
-    public Users(int id, String username, String email, Byte face_data, Timestamp created_at) {
+    public Users(int id, String username, String email, byte[] face_data, Timestamp created_at) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -48,11 +48,11 @@ public class Users {
         this.email = email;
     }
 
-    public Byte getFace_data() {
+    public byte[] getFace_data() {
         return face_data;
     }
 
-    public void setFace_data(Byte face_data) {
+    public void setFace_data(byte[] face_data) {
         this.face_data = face_data;
     }
 
@@ -71,8 +71,8 @@ public class Users {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", face data=" + face_data +
-                ", created at=" + created_at +
+                ", face_data=" + Arrays.toString(face_data) +
+                ", created_at=" + created_at +
                 '}';
     }
 }

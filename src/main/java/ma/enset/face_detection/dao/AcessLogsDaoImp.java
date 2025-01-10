@@ -27,7 +27,7 @@ public class AcessLogsDaoImp implements AccessLogsDao{
                 accessLogs.setId(rs.getInt("id"));
                 accessLogs.setTimestamp(rs.getTimestamp("timestamp"));
                 accessLogs.setStatus(rs.getString("status"));
-                accessLogs.setImage_snapshot(rs.getBlob("image_snapshot"));
+                accessLogs.setImage_snapshot(rs.getBytes("image_snapshot"));
 
                 long userId = rs.getInt("user_id");
                 Users user = getUserById(userId);
@@ -54,7 +54,7 @@ public class AcessLogsDaoImp implements AccessLogsDao{
                 accessLogs.setId(rs.getInt("id"));
                 accessLogs.setTimestamp(rs.getTimestamp("timestamp"));
                 accessLogs.setStatus(rs.getString("status"));
-                accessLogs.setImage_snapshot(rs.getBlob("image_snapshot"));
+                accessLogs.setImage_snapshot(rs.getBytes("image_snapshot"));
 
                 long userId = rs.getInt("user_id");
                 Users user = getUserById(userId);
@@ -74,14 +74,19 @@ public class AcessLogsDaoImp implements AccessLogsDao{
                 "INSERT INTO AccessLogs (timestamp, status, image_snapshot, user_id) VALUES (?, ?, ?, ?)")) {
             pstmt.setTimestamp(1, accessLogs.getTimestamp());
             pstmt.setString(2, accessLogs.getStatus());
-            pstmt.setBlob(3, accessLogs.getImage_snapshot());
-            pstmt.setInt(4, accessLogs.getUsers().getId());
+            pstmt.setBytes(3, accessLogs.getImage_snapshot());
+            if (accessLogs.getUsers() != null) {
+                pstmt.setInt(4, accessLogs.getUsers().getId());
+            } else {
+                pstmt.setNull(4, java.sql.Types.INTEGER);
+            }
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de l'enregistrement de ce access logs.", e);
+            throw new RuntimeException("Erreur lors de l'enregistrement de cet access logs.", e);
         }
     }
+
 
     @Override
     public void delete(AccessLogs accessLogs) {
@@ -96,18 +101,23 @@ public class AcessLogsDaoImp implements AccessLogsDao{
 
     @Override
     public void update(AccessLogs accessLogs) {
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(
-                    "UPDATE AccessLogs SET timestamp = ?, status = ?, image_snapshot = ?, user_id = ? WHERE id = ?");
+        try (PreparedStatement pstmt = connection.prepareStatement(
+                "UPDATE AccessLogs SET timestamp = ?, status = ?, image_snapshot = ?, user_id = ? WHERE id = ?")) {
             pstmt.setTimestamp(1, accessLogs.getTimestamp());
             pstmt.setString(2, accessLogs.getStatus());
-            pstmt.setBlob(3, accessLogs.getImage_snapshot());
-            pstmt.setInt(4, accessLogs.getUsers().getId());
+            pstmt.setBytes(3, accessLogs.getImage_snapshot());
+            if (accessLogs.getUsers() != null) {
+                pstmt.setInt(4, accessLogs.getUsers().getId());
+            } else {
+                pstmt.setNull(4, java.sql.Types.INTEGER);
+            }
+            pstmt.setInt(5, accessLogs.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erreur lors de la mise à jour de l'access logs avec ID " + accessLogs.getId(), e);
         }
     }
+
 
     private Users getUserById(long userId) {
         Users users = null;
@@ -123,7 +133,7 @@ public class AcessLogsDaoImp implements AccessLogsDao{
                 users.setId(rs.getInt("id"));
                 users.setUsername(rs.getString("username"));
                 users.setEmail(rs.getString("email"));
-                users.setFace_data(rs.getByte("face_data"));
+                users.setFace_data(rs.getBytes("face_data"));
                 users.setCreated_at(rs.getTimestamp("created_at"));
             }
         } catch (SQLException e) {
@@ -145,7 +155,7 @@ public class AcessLogsDaoImp implements AccessLogsDao{
                 accessLogs.setId(rs.getInt("id"));
                 accessLogs.setTimestamp(rs.getTimestamp("timestamp"));
                 accessLogs.setStatus(rs.getString("status"));
-                accessLogs.setImage_snapshot(rs.getBlob("image_snapshot"));
+                accessLogs.setImage_snapshot(rs.getBytes("image_snapshot"));
                 accessLogsList.add(accessLogs);
             }
         } catch (SQLException e) {
@@ -153,4 +163,20 @@ public class AcessLogsDaoImp implements AccessLogsDao{
         }
         return accessLogsList;
     }
+
+    public void associateUser(int accessLogId, Users user) {
+        try (PreparedStatement pstmt = connection.prepareStatement(
+                "UPDATE AccessLogs SET user_id = ? WHERE id = ?")) {
+            if (user != null) {
+                pstmt.setInt(1, user.getId());
+            } else {
+                pstmt.setNull(1, java.sql.Types.INTEGER);
+            }
+            pstmt.setInt(2, accessLogId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de l'association de l'utilisateur avec AccessLogs ID " + accessLogId, e);
+        }
+    }
+
 }

@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ma.enset.face_detection.controller.GateGuard">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ma.enset.face_detection.controller.GateGuardController">
    <center>
-      <ImageView fx:id="imageView" fitHeight="245.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" style="-fx-border-color: #9370DB; -fx-border-width: 3px; -fx-border-style: solid; -fx-border-radius: 10px;" />
+      <ImageView fx:id="imageView" fitHeight="245.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
    </center>
    <top>
       <Label text="GATEGUARD" textFill="#911adb" BorderPane.alignment="CENTER">

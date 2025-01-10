@@ -2,18 +2,19 @@ package ma.enset.face_detection.entities;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class AccessLogs {
     private int id;
     private Timestamp timestamp;
     private String status;
-    private Blob image_snapshot;
+    private byte[] image_snapshot;
     private Users users;
 
     //Constructeurs
     public AccessLogs() {
     }
-    public AccessLogs(int id, Timestamp timestamp, String status, Blob image_snapshot, Users users) {
+    public AccessLogs(int id, Timestamp timestamp, String status, byte[] image_snapshot, Users users) {
         this.id = id;
         this.timestamp = timestamp;
         this.status = status;
@@ -46,11 +47,11 @@ public class AccessLogs {
         this.status = status;
     }
 
-    public Blob getImage_snapshot() {
+    public byte[] getImage_snapshot() {
         return image_snapshot;
     }
 
-    public void setImage_snapshot(Blob image_snapshot) {
+    public void setImage_snapshot(byte[] image_snapshot) {
         this.image_snapshot = image_snapshot;
     }
 
@@ -70,7 +71,7 @@ public class AccessLogs {
                 "id=" + id +
                 ", timestamp=" + timestamp +
                 ", status='" + status + '\'' +
-                ", image_snapshot=" + image_snapshot +
+                ", image_snapshot=" + Arrays.toString(image_snapshot) +
                 ", users=" + users +
                 '}';
     }

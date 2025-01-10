@@ -1,24 +1,35 @@
 package ma.enset.face_detection.controller;
 
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
 
+public class HomeController {
+    private BorderPane mainPane; // Conteneur principal pour afficher les vues
 
-import java.net.URL;
-import java.util.ResourceBundle;
+    public void setMainPane(BorderPane mainPane) {
+        this.mainPane = mainPane;
+    }
 
-public class HomeController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+    private void loadView(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+            mainPane.setCenter(root); // Remplace le contenu central du BorderPane par la nouvelle vue
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void dashboard() {
-
+        loadView("/ma/enset/face_detection/fxml/home-view.fxml");
     }
+
     public void manageUsers() {
-
+        loadView("/ma/enset/face_detection/fxml/home-view.fxml");
     }
-    public void statistics(){
 
+    public void statistics() {
+        loadView("/ma/enset/face_detection/fxml/home-view.fxml");
     }
 }

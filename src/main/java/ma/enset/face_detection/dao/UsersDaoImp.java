@@ -26,7 +26,7 @@ public class UsersDaoImp implements UsersDao{
                 users.setId(rs.getInt("id"));
                 users.setUsername(rs.getString("username"));
                 users.setEmail(rs.getString("email"));
-                users.setFace_data(rs.getByte("face_data"));
+                users.setFace_data(rs.getBytes("face_data"));
                 users.setCreated_at(rs.getTimestamp("created_at"));
                 usersList.add(users);
             }
@@ -49,7 +49,7 @@ public class UsersDaoImp implements UsersDao{
                 users.setId(rs.getInt("id"));
                 users.setUsername(rs.getString("username"));
                 users.setEmail(rs.getString("email"));
-                users.setFace_data(rs.getByte("face_data"));
+                users.setFace_data(rs.getBytes("face_data"));
                 users.setCreated_at(rs.getTimestamp("created_at"));
                 return users;
             }
@@ -65,7 +65,7 @@ public class UsersDaoImp implements UsersDao{
                 "INSERT INTO users (username, email, face_data, created_at) VALUES (?, ?, ?, ?)")) {
             pstmt.setString(1, users.getUsername());
             pstmt.setString(2, users.getEmail());
-            pstmt.setByte(3, users.getFace_data());
+            pstmt.setBytes(3, users.getFace_data());
             pstmt.setTimestamp(4, users.getCreated_at());
             pstmt.executeUpdate();
 
@@ -92,7 +92,7 @@ public class UsersDaoImp implements UsersDao{
                     "UPDATE chercheur SET username = ?, email = ?, face_data = ?, created_at = ? WHERE id = ?");
             pstmt.setString(1, users.getUsername());
             pstmt.setString(2, users.getEmail());
-            pstmt.setByte(3, users.getFace_data());
+            pstmt.setBytes(3, users.getFace_data());
             pstmt.setTimestamp(4, users.getCreated_at());
             pstmt.setLong(5, users.getId());
             pstmt.executeUpdate();
@@ -114,7 +114,7 @@ public class UsersDaoImp implements UsersDao{
                 users.setId(rs.getInt("id"));
                 users.setUsername(rs.getString("username"));
                 users.setEmail(rs.getString("email"));
-                users.setFace_data(rs.getByte("face_data"));
+                users.setFace_data(rs.getBytes("face_data"));
                 users.setCreated_at(rs.getTimestamp("created_at"));
                 usersList.add(users);
             }
