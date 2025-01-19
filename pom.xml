@@ -57,6 +57,12 @@
             <version>3.47.2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.tensorflow</groupId>
+            <artifactId>tensorflow-core-platform</artifactId>
+            <version>1.0.0</version>  <!-- Assurez-vous que cette version correspond à celle que vous souhaitez utiliser -->
+        </dependency>
+
     </dependencies>
 
     <build>
